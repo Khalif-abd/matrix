@@ -437,7 +437,7 @@ DEOF
     # Добавляем admin-панель если выбрано
     if [ "$SETUP_ADMIN_PANEL" = "true" ]; then
         # Вставляем перед networks:
-        sed -i '/^networks:/i\  synapse-admin:\n    image: ghcr.io/etkecc/synapse-admin:latest\n    restart: unless-stopped\n    volumes:\n      - ./synapse-admin-config.json:/app/config.json:ro\n    ports:\n      - "127.0.0.1:8081:80"\n    networks:\n      - matrix\n' docker-compose.yml
+        sed -i '/^networks:/i\  synapse-admin:\n    image: ghcr.io/etkecc/synapse-admin:latest\n    restart: unless-stopped\n    volumes:\n      - ./synapse-admin-config.json:/var/public/config.json:ro\n    ports:\n      - "127.0.0.1:8081:8080"\n    networks:\n      - matrix\n' docker-compose.yml
 
         # Config для admin-панели (ограничиваем только наш сервер)
         cat > synapse-admin-config.json << SAEOF
