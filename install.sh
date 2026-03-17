@@ -206,6 +206,7 @@ step_collect_params() {
     # --- Well-known на корневом домене ---
     if ask_yes_no "Настроить .well-known на ${DOMAIN}? (для Matrix ID @user:${DOMAIN})" "y"; then
         SETUP_WELLKNOWN="true"
+        echo -e "  ${YELLOW}⚠ Не забудь добавить DNS A-запись: ${DOMAIN} (корневой) → ${SERVER_IP:-IP_СЕРВЕРА}${NC}"
     else
         SETUP_WELLKNOWN="false"
     fi
@@ -720,7 +721,11 @@ CEOF
 
 # ===== Synapse Admin Panel =====
 ${ADMIN_DOMAIN} {
-    reverse_proxy localhost:8081
+    reverse_proxy localhost:8081 {
+        transport http {
+            versions 1.1
+        }
+    }
 }
 CAEOF
     fi
@@ -897,6 +902,9 @@ step_start_services() {
 
     # Caddy
     log_info "Запускаю Caddy..."
+    # Чистим staging-сертификаты (на случай повторного запуска)
+    rm -rf /var/lib/caddy/.local/share/caddy/certificates/acme-staging* 2>/dev/null
+    rm -rf /var/lib/caddy/.local/share/caddy/locks 2>/dev/null
     systemctl restart caddy
     systemctl enable caddy > /dev/null 2>&1
     sleep 3

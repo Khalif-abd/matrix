@@ -5,7 +5,7 @@ One-command installer for a self-hosted Matrix Synapse + Element + Coturn + Cadd
 ## Quick Start
 
 ```bash
-bash <(curl -Ls https://raw.githubusercontent.com/YOUR_USER/matrix-installer/main/install.sh)
+bash <(curl -Ls https://raw.githubusercontent.com/khalif-abd/matrix/main/install.sh)
 ```
 
 Or download and run:
