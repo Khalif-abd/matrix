@@ -25,6 +25,7 @@ sudo ./install.sh
 | **Element Web** | Web client |
 | **Coturn** | TURN/STUN server for voice/video calls |
 | **Caddy** | Reverse proxy + auto SSL |
+| **Synapse Admin** | Web admin panel (optional) |
 
 ## Requirements
 
@@ -40,6 +41,7 @@ sudo ./install.sh
 | A | `matrix.example.com` | `SERVER_IP` |
 | A | `element.example.com` | `SERVER_IP` |
 | A | `turn.example.com` | `SERVER_IP` |
+| A | `admin.example.com` | `SERVER_IP` (optional) |
 
 ## Features
 
@@ -51,6 +53,9 @@ sudo ./install.sh
 - E2E encryption enabled by default
 - Dark theme Element Web
 - `.well-known` delegation support
+- Optional web admin panel (user management, rooms, media)
+- Optional auto-purge: messages (configurable retention) and media (cron-based)
+- Built-in uninstall script for clean removal
 
 ## After Install
 
@@ -79,6 +84,31 @@ docker compose exec postgres pg_dump -U synapse synapse > backup_$(date +%Y%m%d)
 
 ```bash
 cd /opt/matrix && docker compose logs -f
+```
+
+### Manual media purge
+
+```bash
+sudo bash install.sh --purge-media
+# or directly:
+/opt/matrix/purge-media.sh
+```
+
+### Full uninstall (removes EVERYTHING)
+
+```bash
+sudo bash install.sh --uninstall
+# or directly:
+/opt/matrix/uninstall.sh
+```
+
+### CLI flags
+
+```
+sudo bash install.sh              # Interactive install
+sudo bash install.sh --uninstall   # Full removal
+sudo bash install.sh --purge-media # Manual media purge
+sudo bash install.sh --help        # Help
 ```
 
 ## Clients
